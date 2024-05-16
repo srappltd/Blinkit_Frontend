@@ -19,13 +19,11 @@ const Login = () => {
         e.preventDefault()
         const {email,password} = adminForm
         if(email && password){
-            dipatch(asyncAdminUser(adminForm))
-            console.log(isAdmin())
-            const id = toast.loading("Please Wait...",{position:"top-center"})
+            dipatch(asyncAdminUser(adminForm,navigate))
+            
             setTimeout(()=>{
                 if(isAdmin()){
-                    toast.done(id)
-                    navigate("/admin/deshboard")
+                    
                 }
             },2000)
         }
@@ -62,7 +60,7 @@ const Login = () => {
                 </form>
             </div>
         </div>
-    </div> : window.location.href = '/admin/deshboard'
+    </div> : navigate('/admin/deshboard')
   )
 }
 

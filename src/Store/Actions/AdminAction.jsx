@@ -3,12 +3,17 @@ import { Axios } from "../../Utils/Axios"
 import { getAdmin, getBanners, getBrands, getCategories, getClients, getCoupons, getOrders, getPosters, getProducts, getTransactions } from "../Reducers/AdminReducer"
 
 
-export const asyncAdminUser = (adminForm) => async (dispatch,state)=>{
+export const asyncAdminUser = (adminForm,navigate) => async (dispatch,state)=>{
     try {
+        const id = toast.loading("Please Wait...",{position:"top-center"})
         const {data} = await Axios.post("/api/admin/signin",adminForm)
-        dispatch(getAdmin(data))
-        localStorage.setItem("admin_token",data.admin.isAdmin)
-        toast.success(data.message)
+        if(data.success){
+            dispatch(getAdmin(data))
+            toast.done(id)
+            localStorage.setItem("admin_token",data.admin.isAdmin)
+            navigate("/admin/deshboard")
+            toast.success(data.message)
+        }
     } catch (error) {
         toast.error(error)
     }
@@ -18,9 +23,9 @@ export const asyncAdminLogout = (navigate) => async (dispatch,state)=>{
     const {data} = await Axios.get("/api/admin/logout")
     console.log(data)
     if(data.success){
-        navigate("/admin/login")
         localStorage.removeItem("admin_token")
         toast.success("Successfully logout!")
+        navigate("/admin/login")
     }
 }
 

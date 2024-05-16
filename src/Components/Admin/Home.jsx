@@ -40,7 +40,6 @@ const Home = () => {
         dispatch(asyncProductsList())
         dispatch(asyncBrandsList())
     },[pathname])
-    console.log(isAdmin())
   return (
     isAdmin() ? 
     <div onClick={handleEventBtn} className='w-full h-screen overflow-hidden flex'>
